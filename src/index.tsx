@@ -8,6 +8,7 @@ const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
 root.render(
+  //严格模式 提供友好提示
   <React.StrictMode>
     <App />
   </React.StrictMode>
