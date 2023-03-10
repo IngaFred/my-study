@@ -1,6 +1,6 @@
 import React from 'react';
 
-import FunctionIIIrfc from './components/FunctionIIIIrfc';
+import FunctionIIIrfc from './components/WelcomeIIIIrfc';
 
 function App() {
   return (

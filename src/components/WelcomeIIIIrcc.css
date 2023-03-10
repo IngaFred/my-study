@@ -1,0 +1,13 @@
+.welcome .box1{
+    width: 150px;
+    height: 30px;
+    background-color: aqua;
+}
+.welcome .box2{
+    width: 150px;
+    height: 30px;
+    background-color: aqua;
+}
+
+/* 直接加进去的样式是全局样式 */
+/* 默认下脚手架不支持scss的模式 全局嵌套 需要自己引入 npm i scss */
