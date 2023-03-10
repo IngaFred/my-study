@@ -1,7 +1,8 @@
 //import React from 'react'
 //根据现jsx的新的转换机制，其引入将由编译器自动引入，所以React17以上可以不用再import React，但是17以下还是要引入
 
-import './WelcomeIIIIrcc.scss'
+
+/* import './WelcomeIIIIrcc.css'
 
 export default function FunctionIIIrfc() {
   return (
@@ -12,7 +13,54 @@ export default function FunctionIIIrfc() {
 
     </div>
   )
+} */
+
+
+/* import './WelcomeIIIIrcc.scss'
+
+export default function FunctionIIIrfc() {
+  return (
+    <div className="welcome">
+      <div className="box1">WelcomeIIIIrfc 01</div>
+      <hr />
+      <div className="box2">WelcomeIIIIrfc 02</div>
+
+    </div>
+  )
+} */
+
+
+
+/* import style from "./WelcomeIIIIrcc.module.css"
+
+export default function FunctionIIIrfc() {
+  return (
+    <div>
+      <div className={style.box1}>WelcomeIIIIrfc 01</div>
+      <hr />
+      <div className={style.box2}>WelcomeIIIIrfc 02</div>
+
+    </div>
+  )
+} */
+
+
+
+import styled from 'styled-components'
+
+export default function FunctionIIIrfc() {
+  return (
+    <div></div>
+
+    // <div className={style.welcome}>
+    //   <div className={style.box1}>WelcomeIIIIrfc 01</div>
+    //   <hr />
+    //   <div className={style.box2}>WelcomeIIIIrfc 02</div>
+
+    // </div>
+  )
 }
+
 
 /**
  * rcc 直接生成骨架react 组件

@@ -1,11 +1,13 @@
+$num: 150px;
+
 .welcome{
     .box1{
-        width: 150px;
+        width: $num;
         height: 30px;
         background-color: aqua;
     }
     .box2{
-        width: 150px;
+        width: $num;
         height: 30px;
         background-color: aquamarine;
     }

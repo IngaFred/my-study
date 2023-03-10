@@ -11,3 +11,8 @@
 
 /* 直接加进去的样式是全局样式 */
 /* 默认下脚手架不支持scss的模式 全局嵌套 需要自己引入 npm i scss */
+/* 模块化css Xxx.module.css   在引用的时候就要进行style的存储了 然后进行模块化的选取样式{name.sname}*/
+/* 全局嵌套的scss中进行模块化开发 既二合一的 Xxx.module.scss */
+/* CSS-in-JS: npm i --save-dev @types/styled-components   这个安装
+    和Vue同一页上写样式的很像 
+    通常来说是写出一个组件的形式 进行复合调用 还可以做继承效果 和函数效果*/
