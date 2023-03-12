@@ -46,18 +46,11 @@ export default function FunctionIIIrfc() {
 
 
 
-import styled from 'styled-components'
+// import styled from 'styled-components'
 
 export default function FunctionIIIrfc() {
   return (
     <div></div>
-
-    // <div className={style.welcome}>
-    //   <div className={style.box1}>WelcomeIIIIrfc 01</div>
-    //   <hr />
-    //   <div className={style.box2}>WelcomeIIIIrfc 02</div>
-
-    // </div>
   )
 }
 
