@@ -37,6 +37,8 @@ declare module 'react-router' {
         auth?: boolean
       }
     }
+
+
     
     interface NonIndexRouteObject {
       meta?: {
