@@ -1,6 +1,5 @@
 import React from 'react';
 
-
 function App() {
   return (
     <>
@@ -17,27 +16,3 @@ function App() {
 }
 
 export default App;
-
-
-
-
-// import React from 'react';
-
-// import FunctionIIIrfc from './components/WelcomeIIIIrfc';
-
-// function App() {
-//   return (
-//     <>
-//       <div className="App">
-//         <React.Fragment>
-//           <h3>Hello React</h3>
-//           <hr />
-//           <FunctionIIIrfc />
-//       </React.Fragment>
-//         <h3>Study start</h3>
-//       </div>
-//     </>
-//   );
-// }
-
-// export default App;
