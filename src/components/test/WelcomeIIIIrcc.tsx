@@ -2,6 +2,7 @@ import React, { Component } from "react";
 
 export default class WelcomeIIIIrcc extends Component {
   render() {
+    <></>
     return <div>WelcomeIIIIrcc</div>;
   }
 }
