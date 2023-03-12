@@ -1,10 +1,8 @@
-import React, { Component } from 'react'
+import React, { Component } from "react";
 
 export default class WelcomeIIIIrcc extends Component {
   render() {
-    return (
-      <div>WelcomeIIIIrcc</div>
-    )
+    return <div>WelcomeIIIIrcc</div>;
   }
 }
 
