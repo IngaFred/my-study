@@ -7,10 +7,12 @@ import './assets/styles/iconfont.scss';
 import './assets/styles/common.scss';
 // import App from './App';
 import reportWebVitals from './reportWebVitals';
-//不使用App了，使用自己配置的路由表了 引入路由提供
+// 不使用App了，使用自己配置的路由表了 引入路由提供
 import { RouterProvider } from 'react-router-dom'
-//引入路由表
+// 引入路由表
 import router from './router';
+// 使用懒加载后 引入suspense
+import { Suspense } from 'react';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
@@ -18,8 +20,10 @@ const root = ReactDOM.createRoot(
 root.render(
   //严格模式 提供友好提示
   <React.StrictMode>
-    {/* <App /> */}
-    <RouterProvider router={router}></RouterProvider>
+    <Suspense>
+      {/* <App /> */}
+      <RouterProvider router={router}></RouterProvider>
+    </Suspense>
   </React.StrictMode>
 );
 
