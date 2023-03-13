@@ -7,6 +7,7 @@ interface BeforeEachProps {
   children?: React.ReactNode;
 }
 
+
 export default function BeforeEach(props: BeforeEachProps) {
   const location = useLocation();
   const matchs = matchRoutes(routes, location);
