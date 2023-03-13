@@ -14,7 +14,6 @@ import {
   FileAddOutlined,
   ScheduleOutlined,
 } from "@ant-design/icons";
-
 // 使用lazy中的回调函数导入页面路径
 const Home = lazy(() => import("../views/Home/Home"));
 const Sign = lazy(() => import("../views/Sign/Sign"));
@@ -22,14 +21,11 @@ const Exception = lazy(() => import("../views/Exception/Exception"));
 const Apply = lazy(() => import("../views/Apply/Apply"));
 const Check = lazy(() => import("../views/Check/Check"));
 const Login = lazy(() => import("../views/Login/Login"));
-
 // import BeforeEach from "../components/BeforeEach/BeforeEach";
 // 懒加载的形式引入
 const BeforeEach = lazy(() => import("../components/BeforeEach/BeforeEach"));
-
 // meta?: MetaHTMLAttributes
 // import type { MetaHTMLAttributes } from 'react'
-
 // 扩展d.ts文件中 react-router 中RouteObject的（IndexRouteObject || NonIndexRouteObject）两个接口
 declare module "react-router" {
   interface IndexRouteObject {
@@ -40,7 +36,6 @@ declare module "react-router" {
       auth?: boolean;
     };
   }
-
   interface NonIndexRouteObject {
     meta?: {
       menu?: boolean;
@@ -50,7 +45,6 @@ declare module "react-router" {
     };
   }
 }
-
 // 定义路由表组及类型
 // export 输出个接口可以调用
 export const routes: RouteObject[] = [
@@ -62,6 +56,8 @@ export const routes: RouteObject[] = [
     // element: React.createElement(Home),
     // 使用全局守卫形式(全局守卫,属性,子项) 套在一级路由下
     element: React.createElement(BeforeEach, null, React.createElement(Home)),
+    // @ts-ignore
+    // 此处  { createBrowserRouter } from 'react-router-dom' 没有拓展ts属性导致的ts类型错误 可忽略
     meta: {
       menu: true,
       title: "首页",
@@ -74,6 +70,7 @@ export const routes: RouteObject[] = [
       {
         path: "sign",
         element: React.createElement(Sign),
+        // @ts-ignore
         meta: {
           menu: true,
           title: "签到",
