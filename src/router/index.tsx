@@ -14,6 +14,7 @@ import {
   FileAddOutlined,
   ScheduleOutlined,
 } from "@ant-design/icons";
+import { AntdIconProps } from "@ant-design/icons/lib/components/AntdIcon"
 // 使用lazy中的回调函数导入页面路径
 const Home = lazy(() => import("../views/Home/Home"));
 const Sign = lazy(() => import("../views/Sign/Sign"));
@@ -32,7 +33,9 @@ declare module "react-router" {
     meta?: {
       menu?: boolean;
       title?: string;
-      icon?: React.ReactNode;
+      // icon?: React.ReactNode;
+      // 优化特定类型
+      icon?: React.ReactElement<AntdIconProps>;
       auth?: boolean;
     };
   }
@@ -40,7 +43,9 @@ declare module "react-router" {
     meta?: {
       menu?: boolean;
       title?: string;
-      icon?: React.ReactNode;
+      // icon?: React.ReactNode;
+      // 优化特定类型
+      icon?: React.ReactElement<AntdIconProps>;
       auth?: boolean;
     };
   }
@@ -51,11 +56,14 @@ export const routes: RouteObject[] = [
   // 开始编写对应路由
   {
     path: "/",
-    // element: <Home /> 这种写法是错误的，在TS里会认为这是一个类型
+    // element: <Home /> ts中这种写法是错误的，在ts里会认为这是一个类型,但是tsx不会
     // 不使用全局守卫形式
     // element: React.createElement(Home),
+
     // 使用全局守卫形式(全局守卫,属性,子项) 套在一级路由下
-    element: React.createElement(BeforeEach, null, React.createElement(Home)),
+    element: <BeforeEach><Home/></BeforeEach>,
+    // element: React.createElement(BeforeEach, null, React.createElement(Home)),
+    
     // @ts-ignore
     // 此处  { createBrowserRouter } from 'react-router-dom' 没有拓展ts属性导致的ts类型错误 可忽略
     meta: {
@@ -69,7 +77,7 @@ export const routes: RouteObject[] = [
     children: [
       {
         path: "sign",
-        element: React.createElement(Sign),
+        element: <Sign/>,
         // @ts-ignore
         meta: {
           menu: true,
