@@ -1,11 +1,12 @@
 // 引入react-router-dom件
-import { createBrowserRouter } from "react-router-dom";
+import { createBrowserRouter } from 'react-router-dom';
 // 引入路由类型
-import type { RouteObject } from "react-router-dom";
+import type { RouteObject } from 'react-router-dom';
 // 引入React方法进行element的创建 React.createElement(页面模块)
-import React from "react";
+import React from 'react';
 // 懒加载的方式引入对应页面 配置suspense在index.tsx
-import { lazy } from "react";
+import { lazy } from 'react';
+// zzzz
 // icons
 import {
   CopyOutlined,
@@ -13,22 +14,22 @@ import {
   WarningOutlined,
   FileAddOutlined,
   ScheduleOutlined,
-} from "@ant-design/icons";
-import { AntdIconProps } from "@ant-design/icons/lib/components/AntdIcon"
+} from '@ant-design/icons';
+import { AntdIconProps } from '@ant-design/icons/lib/components/AntdIcon';
 // 使用lazy中的回调函数导入页面路径
-const Home = lazy(() => import("../views/Home/Home"));
-const Sign = lazy(() => import("../views/Sign/Sign"));
-const Exception = lazy(() => import("../views/Exception/Exception"));
-const Apply = lazy(() => import("../views/Apply/Apply"));
-const Check = lazy(() => import("../views/Check/Check"));
-const Login = lazy(() => import("../views/Login/Login"));
+const Home = lazy(() => import('../views/Home/Home'));
+const Sign = lazy(() => import('../views/Sign/Sign'));
+const Exception = lazy(() => import('../views/Exception/Exception'));
+const Apply = lazy(() => import('../views/Apply/Apply'));
+const Check = lazy(() => import('../views/Check/Check'));
+const Login = lazy(() => import('../views/Login/Login'));
 // import BeforeEach from "../components/BeforeEach/BeforeEach";
 // 懒加载的形式引入
-const BeforeEach = lazy(() => import("../components/BeforeEach/BeforeEach"));
+const BeforeEach = lazy(() => import('../components/BeforeEach/BeforeEach'));
 // meta?: MetaHTMLAttributes
 // import type { MetaHTMLAttributes } from 'react'
 // 扩展d.ts文件中 react-router 中RouteObject的（IndexRouteObject || NonIndexRouteObject）两个接口
-declare module "react-router" {
+declare module 'react-router' {
   interface IndexRouteObject {
     meta?: {
       menu?: boolean;
@@ -55,20 +56,24 @@ declare module "react-router" {
 export const routes: RouteObject[] = [
   // 开始编写对应路由
   {
-    path: "/",
+    path: '/',
     // element: <Home /> ts中这种写法是错误的，在ts里会认为这是一个类型,但是tsx不会
     // 不使用全局守卫形式
     // element: React.createElement(Home),
 
     // 使用全局守卫形式(全局守卫,属性,子项) 套在一级路由下
-    element: <BeforeEach><Home/></BeforeEach>,
+    element: (
+      <BeforeEach>
+        <Home />
+      </BeforeEach>
+    ),
     // element: React.createElement(BeforeEach, null, React.createElement(Home)),
-    
+
     // @ts-ignore
     // 此处  { createBrowserRouter } from 'react-router-dom' 没有拓展ts属性导致的ts类型错误 可忽略
     meta: {
       menu: true,
-      title: "首页",
+      title: '首页',
       // 图标对应
       icon: React.createElement(CopyOutlined),
       // 权限认证
@@ -76,42 +81,42 @@ export const routes: RouteObject[] = [
     },
     children: [
       {
-        path: "sign",
-        element: <Sign/>,
+        path: 'sign',
+        element: <Sign />,
         // @ts-ignore
         meta: {
           menu: true,
-          title: "签到",
+          title: '签到',
           icon: React.createElement(CalendarOutlined),
           auth: true,
         },
       },
       {
-        path: "exception",
+        path: 'exception',
         element: React.createElement(Exception),
         meta: {
           menu: true,
-          title: "异常",
+          title: '异常',
           icon: React.createElement(WarningOutlined),
           auth: true,
         },
       },
       {
-        path: "apply",
+        path: 'apply',
         element: React.createElement(Apply),
         meta: {
           menu: true,
-          title: "添加",
+          title: '添加',
           icon: React.createElement(FileAddOutlined),
           auth: true,
         },
       },
       {
-        path: "check",
+        path: 'check',
         element: React.createElement(Check),
         meta: {
           menu: true,
-          title: "审核",
+          title: '审核',
           icon: React.createElement(ScheduleOutlined),
           auth: true,
         },
@@ -119,7 +124,7 @@ export const routes: RouteObject[] = [
     ],
   },
   {
-    path: "/login",
+    path: '/login',
     element: React.createElement(BeforeEach, null, React.createElement(Login)),
   },
 ];
