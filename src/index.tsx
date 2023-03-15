@@ -13,16 +13,22 @@ import { RouterProvider } from 'react-router-dom'
 import router from './router';
 // 使用懒加载后 引入suspense
 import { Suspense } from 'react';
+// 引入状态管理
+import { Provider } from 'react-redux'
+import store from './store';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
 root.render(
-  //严格模式 提供友好提示
+  // 严格模式 提供友好提示
   <React.StrictMode>
     <Suspense>
       {/* <App /> */}
-      <RouterProvider router={router}></RouterProvider>
+      {/* 状态管理添加 */}
+      <Provider store={store}>
+        <RouterProvider router={router}></RouterProvider>
+      </Provider>
     </Suspense>
   </React.StrictMode>
 );

@@ -1,4 +1,10 @@
-import { createSlice, createAsyncThunk} from '@reduxjs/toolkit'
+import { configureStore } from '@reduxjs/toolkit'
+import usersReduser from './modules/user'
 
+const store = configureStore({
+    reducer: {
+        user: usersReduser
+    }
+})
 
-export {}
+export default store;
