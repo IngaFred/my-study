@@ -45,12 +45,12 @@ const usersSlice = createSlice({
 // 导出异步方法 
 export const loginAction = createAsyncThunk('users/loginAction',async (payload: login) => {
     // 对应后端接口了
-    const ret = http.post('/users/login', payload);
+    const ret = await http.post('/users/login', payload);
     return ret;
 })
 // 获取用户信息的方法
 export const infosAction = createAsyncThunk('/users/infosAction',async () => {
-    const ret = http.get('/users/infos');
+    const ret = await http.get('/users/infos');
     return ret;
 })
 
