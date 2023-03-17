@@ -19,7 +19,6 @@ export default class WelcomeIIIIrcc extends Component<propType,StateType> {
     console.log(this)
   }
   
-
 /*   state = {
     name: 'My First Component'
   };

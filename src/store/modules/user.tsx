@@ -11,7 +11,7 @@ type Infos = {
     [index: string]: unknown;
 }
 // 包装一下 设置断言，满足要求类型 
-type UsersState= {
+export type UsersState= {
     token: Token,
     infos: Infos
 }
