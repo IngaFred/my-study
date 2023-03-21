@@ -37,7 +37,7 @@ const usersSlice = createSlice({
         updateInfos(state, action:PayloadAction<Infos>){
             state.infos = action.payload;
         },
-        clearToken(state, action:PayloadAction<Token>){
+        clearToken(state){
             state.token = '';
         },
     }
