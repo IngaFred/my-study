@@ -1,52 +1,58 @@
-import React from 'react'
-import { Menu } from 'antd';
-import type { MenuProps } from 'antd';
-import { AppstoreOutlined, MailOutlined, SettingOutlined } from '@ant-design/icons';
+import React from "react";
+import { Menu } from "antd";
+import type { MenuProps } from "antd";
 import styles from "../Home.module.scss";
-// 子类
-type MenuItem = Required<MenuProps>['items'][number];
-// 归纳items
-function getItem(
-    label: React.ReactNode,
-    key: React.Key,
-    icon?: React.ReactNode,
-    children?: MenuItem[],
-    type?: 'group',
-  ): MenuItem {
-    return {
-      key,
-      icon,
-      children,
-      label,
-      type,
-    } as MenuItem;
-  }
-
-const items: MenuProps['items'] = [
-    // 1级
-    getItem('Navigation One', '1', <MailOutlined />),
-    getItem('Navigation Two', '2', <AppstoreOutlined />, [
-        // 2级
-        getItem('Option 1', '3'),
-        getItem('Option 2', '4'),
-                                    // 3级
-        getItem('Submenu', '5', null, [getItem('Option 3.1', '6'), getItem('Option 3.2', '8')]),
-      ]),
-      // 分割线
-      { type: 'divider' },
-      getItem('Navigation Three', '9', <SettingOutlined />),
-      getItem('Group', 'grp', null, [getItem('Option 5.1', '10'), getItem('Option 5.2', '11')], 'group'),
-];
+// 拿到infos
+import { useSelector } from "react-redux";
+import type { RootState } from "../../../store";
+// 得到路由
+import { routes } from "../../../router";
+// 克隆过滤路由
+import _ from "lodash";
+// import { useLocation } from "react-router-dom";
 
 export default function HomeAside() {
+  // 得到infos下的permission 可能为空
+  const permission = useSelector(
+    (state: RootState) => state.user.infos.permission
+  ) as unknown[];
+  // 现在已经获得了permission 要进行筛选
+  // 不要直接对路由表操作，防止出现 互相引用的问题 使用lodash进行克隆 深拷贝 过滤
+  const menus = _.cloneDeep(routes).filter((v) => {
+    v.children = v.children?.filter(
+      (v) => v.meta?.menu && permission.includes(v.name)
+    );
+    return v.meta?.menu && permission.includes(v.name);
+  });
+  // 变成具备动态菜单渲染的路由menu 转圜成菜单栏
+  const items: MenuProps["items"] = menus.map((v1) => {
+    const children = v1.children?.map((v2) => {
+      {
+        return {
+          key: v1.path! + v2.path!,
+          label: v2.meta?.title,
+          icon: v2.meta?.icon,
+        };
+      }
+    });
+    return {
+      // 不能将类型 key: string | undefined; 进行非空断言
+      key: v1.path!,
+      label: v1.meta?.title,
+      icon: v1.meta?.icon,
+      children,
+    };
+  });
   return (
-    <Menu 
-    // onClick={onClick}
-    defaultSelectedKeys={['1']}
-    defaultOpenKeys={['5']}
-    mode="inline"
-    items={items}
-    className={styles["home-aside"]}
-  />
-  )
+    <>
+      <Menu
+        // onClick={onClick}
+        defaultSelectedKeys={[]}
+        defaultOpenKeys={[]}
+        mode="inline"
+        items={items}
+        className={styles["home-aside"]}
+      />
+    </>
+  );
 }
