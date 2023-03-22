@@ -1,5 +1,5 @@
 // 引入react-router-dom件
-import { createBrowserRouter, Navigate } from 'react-router-dom';
+import { createHashRouter, Navigate } from 'react-router-dom';
 // 引入路由类型
 import type { RouteObject } from 'react-router-dom';
 // 引入React方法进行element的创建 React.createElement(页面模块)
@@ -110,7 +110,7 @@ export const routes: RouteObject[] = [
       },
       {
         path: 'apply',
-        element: React.createElement(Apply),
+        element: <Apply/>,
         meta: {
           menu: true,
           title: '添加',
@@ -120,7 +120,7 @@ export const routes: RouteObject[] = [
       },
       {
         path: 'check',
-        element: React.createElement(Check),
+        element: <Check/>,
         meta: {
           menu: true,
           title: '审核',
@@ -136,6 +136,9 @@ export const routes: RouteObject[] = [
   },
 ];
 // 创建路由对象,createBrowserRouter(路由表)
-const router = createBrowserRouter(routes);
+// import { createHashRouter } from 'react-router-dom';
+// const router = createBrowserRouter(routes);
+// 使用 createHashRouter 函数来创建一个 HashRouter 路由器
+const router = createHashRouter(routes);
 // 提供对外接口
 export default router;
