@@ -16,7 +16,7 @@ const instance = axios.create({
 instance.interceptors.request.use(function (config) {
   // 进行请求头的检测
   if(config.headers){
-    // 给请求头设置token
+    // 给请求头设置token 头信息
     config.headers.authorization = store.getState().user.token;
   }
   return config;

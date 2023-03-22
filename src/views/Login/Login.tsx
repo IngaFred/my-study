@@ -1,10 +1,10 @@
 import React from "react";
 import styles from "./Login.module.scss";
 // antd
-import { Button, Checkbox, Form, Input, message, Row, Col } from "antd";
+import { Button, Form, Input, message, Row, Col } from "antd";
 // token
-import { useSelector } from "react-redux";
-import { RootState } from "../../store";
+// import { useSelector } from "react-redux";
+// import { RootState } from "../../store";
 import { useAppDispatch } from "../../store";
 // 引入登录接口
 import {
@@ -18,34 +18,16 @@ import classNames from "classnames";
 import { useNavigate } from "react-router-dom";
 
 export default function Login() {
-  //跳转
+  //编程式跳转
   const navigate = useNavigate();
   // 从useSelector中解出User中的token
-  const token = useSelector((state: RootState) => state.user.token);
+  // const token = useSelector((state: RootState) => state.user.token);
   const dispatch = useAppDispatch();
-  const handlerLogin = () => {
-    dispatch(
-      loginAction({ email: "huangrong@imooc.com", pass: "huangrong" })
-    ).then((action) => {
-      // 对action.payload和其下的数据类型，进行断言
-      const { errcode, token } = (
-        action.payload as { [index: string]: unknown }
-      ).data as { [index: string]: unknown };
-      if (errcode === 0 && typeof token === "string") {
-        //类型正确，且token更新成功
-        dispatch(updateToken(token));
-        message.success("登录成功");
-        navigate('/')
-      } else {
-        message.error("登录失败");
-      }
-    });
-  };
+  
   // antd 方法
   const onFinish = (values: User) => {
     dispatch(
-      loginAction(values)
-    ).then((action) => {
+      loginAction(values)).then((action) => {
       // 对action.payload和其下的数据类型，进行断言
       const { errcode, token } = (
         action.payload as { [index: string]: unknown }
@@ -118,7 +100,7 @@ export default function Login() {
               )}
             ></i>
           </span>
-          <span className={styles["header-title"]}>学生考勤系统</span>
+          <span className={styles["header-title"]}>系统</span>
         </div>
         <div className={styles.desc}>React18 + TypeScript4</div>
         <Form

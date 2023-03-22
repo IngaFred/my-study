@@ -8,7 +8,7 @@ export default function () {
   return (
     <div>
       Home
-      <WelcomeIIIIrcc name={"MyPropsName"}></WelcomeIIIIrcc>
+      {/* <WelcomeIIIIrcc name={"MyPropsName"}></WelcomeIIIIrcc> */}
       <Outlet />
     </div>
   );

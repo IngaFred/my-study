@@ -6,7 +6,7 @@ import { PayloadAction } from '@reduxjs/toolkit';
 
 // 共享状态类型设置
 type Token = string;
-type Infos = {
+export type Infos = {
     // 不确定Infos类型时这么定义 switch签名方式添加类型
     [index: string]: unknown;
 }

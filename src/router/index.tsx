@@ -1,5 +1,5 @@
 // 引入react-router-dom件
-import { createBrowserRouter } from 'react-router-dom';
+import { createBrowserRouter, Navigate } from 'react-router-dom';
 // 引入路由类型
 import type { RouteObject } from 'react-router-dom';
 // 引入React方法进行element的创建 React.createElement(页面模块)
@@ -56,6 +56,11 @@ declare module 'react-router' {
 // 定义路由表组及类型
 // export 输出个接口可以调用
 export const routes: RouteObject[] = [
+  {
+    // 首页重定向到第一个二级路由
+    path: '/',
+    element: <Navigate to = "/sign" />
+  },
   // 开始编写对应路由
   {
     path: '/',

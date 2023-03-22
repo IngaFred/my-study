@@ -29,43 +29,43 @@ export default class WelcomeIIIIrcc extends Component<propType,StateType> {
   /**
    * react生命周期 挂载前
    */
-   componentWillMount() {
-    console.log('Component will mount');
-  }
+  //  componentWillMount() {
+  //   console.log('Component will mount');
+  // }
   /**
    * react生命周期 挂载后
    */
-  componentDidMount() {
-    console.log('Component did mount');
-  }
+  // componentDidMount() {
+  //   console.log('Component did mount');
+  // }
 
   /**
    * react生命周期 更新前
    */
-  componentWillUpdate() {
-    console.log('Component will update');
-  }
+  // componentWillUpdate() {
+  //   console.log('Component will update');
+  // }
 
   /**
    * react生命周期 更新后
    */
-  componentDidUpdate() {
-    console.log('Component did update');
-  }
+  // componentDidUpdate() {
+  //   console.log('Component did update');
+  // }
 
   /**
    * react生命周期 卸载前
    */
-  componentWillUnmount() {
-    console.log('Component will unmount');
-  }
+  // componentWillUnmount() {
+  //   console.log('Component will unmount');
+  // }
 
   /**
    * react生命周期 卸载后 不存在
    */
-  componentDidUnmount() {
-    console.log('Component did unmount');
-  }
+  // componentDidUnmount() {
+  //   console.log('Component did unmount');
+  // }
 
   /**
    * react生命周期 主方法 渲染
