@@ -3,25 +3,52 @@ import classNames from "classnames";
 import styles from "../Home.module.scss";
 import { Dropdown, Badge, Space, Avatar } from "antd";
 import type { MenuProps } from "antd";
-import { BellOutlined, AntDesignOutlined } from "@ant-design/icons";
+import { BellOutlined } from "@ant-design/icons";
+// infos
+import { useSelector } from "react-redux";
+import type { RootState } from "../../../store";
+// token操作+同步方法
+import { useAppDispatch } from "../../../store";
+import { clearToken } from "../../../store/modules/user";
 
-const items1: MenuProps["items"] = [
-  {
-    key: "1",
-    label: <div>信息提示</div>,
-  },
-];
-const items2: MenuProps["items"] = [
-  {
-    key: "1",
-    label: <div>个人中心</div>,
-  },
-  {
-    key: "2",
-    label: <div>退出</div>,
-  },
-];
 export default function HomeHeader() {
+  // infos,获取用户name,head
+  const name = useSelector(
+    (state: RootState) => state.user.infos.name
+  ) as string;
+  const head = useSelector(
+    (state: RootState) => state.user.infos.head
+  ) as string;
+  const dispatch = useAppDispatch();
+
+  const headleLogut = () => {
+    // 清除token
+    dispatch(clearToken())
+    // 延时返回
+    setTimeout(
+      () => {
+        window.location.replace('/login')
+      }
+    )
+  }
+  const items1: MenuProps["items"] = [
+    {
+      key: "1",
+      label: <div>信息提示</div>,
+    },
+  ];
+  const items2: MenuProps["items"] = [
+    {
+      key: "1",
+      label: <div>个人中心</div>,
+    },
+    {
+      key: "2",
+      // 实现退出 清除token 到login
+      label: <div onClick={headleLogut}>退出</div>,
+    },
+  ];
+
   return (
     <div className={styles["home-header"]}>
       {/* logo */}
@@ -56,7 +83,7 @@ export default function HomeHeader() {
         {/* space 间距包住 */}
         <Space className={styles["home-header-space"]}>
           {/* Avatar头像 */}
-          <Avatar size="large" icon={<AntDesignOutlined />} /> 用户
+          <Avatar size="large" src={head} /> {name}
         </Space>
       </Dropdown>
     </div>

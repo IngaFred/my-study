@@ -76,7 +76,7 @@ export const routes: RouteObject[] = [
     name: "home",
     meta: {
       menu: true,
-      title: "首页",
+      title: "管理",
       icon: React.createElement(CopyOutlined),
       // 权限认证
       auth: true,

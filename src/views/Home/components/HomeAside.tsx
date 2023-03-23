@@ -13,15 +13,15 @@ import { useLocation, matchRoutes, Link } from "react-router-dom";
 
 export default function HomeAside() {
   // 得到infos下的permission 可能为空
+  // 现在已经获得了permission 要进行筛选
+  // 不要直接对路由表操作，防止出现 互相引用的问题 使用lodash进行克隆 深拷贝 过滤
   const permission = useSelector(
     (state: RootState) => state.user.infos.permission
   ) as unknown[];
-  // 现在已经获得了permission 要进行筛选
-  // 不要直接对路由表操作，防止出现 互相引用的问题 使用lodash进行克隆 深拷贝 过滤
   const menus = _.cloneDeep(routes).filter((v) => {
-    v.children = v.children?.filter(
-      (v) => permission.includes(v.name) && v.meta?.menu
-    );
+    v.children = v.children?.filter((v) => {
+      return permission.includes(v.name) && v.meta?.menu;
+    });
     return permission.includes(v.name) && v.meta?.menu;
   });
   // 变成具备动态菜单渲染的路由menu 转圜成菜单栏
