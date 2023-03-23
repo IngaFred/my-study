@@ -5,7 +5,7 @@ import type { Reducer, AnyAction} from "@reduxjs/toolkit"
 import type { UsersState } from "./modules/user";
 import type { PersistPartial } from "redux-persist/es/persistReducer";
 // 添加sginReduser
-import sginReduser from "./modules/sgin";
+import signsReducer from './modules/sign'
 // 持节化处理
 import {
   persistStore,
@@ -38,7 +38,7 @@ const store = configureStore({
     user: persistReducer(persistConfig, usersReduser) as Reducer<UsersState & PersistPartial, AnyAction>,
 
     // 添加SginState
-    sgins: sginReduser
+    signs: signsReducer
   },
     // 中间键设置
     middleware: (getDefaultMiddleware) =>

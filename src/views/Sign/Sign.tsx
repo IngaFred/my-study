@@ -1,23 +1,36 @@
 import React, { useEffect, useState } from "react";
 import styles from "./Sign.module.scss";
-import { Button, Calendar, Descriptions, Row, Select, Space, Tag } from "antd";
+import {
+  Button,
+  Calendar,
+  Descriptions,
+  message,
+  Row,
+  Select,
+  Space,
+  Tag,
+} from "antd";
 // 国际化配置
 import "dayjs/locale/zh-cn";
 import locale from "antd/es/date-picker/locale/zh_CN";
 // 跳转
 import { useNavigate } from "react-router-dom";
-// lodash 
-import _ from 'lodash';
+// lodash
+import _ from "lodash";
 // 对后台接口操作
 import { useSelector } from "react-redux";
 import type { RootState } from "../../store";
 import { useAppDispatch } from "../../store";
-import sgin, { getSginsAction, updateInfos } from "../../store/modules/sgin";
-import type { Infos } from "../../store/modules/user";
+import {
+  getSignsAction,
+  putSignsAction,
+  updateInfos,
+} from "../../store/modules/sign";
+import type { Infos } from "../../store/modules/sign";
 // Calendar 部分 locale 是从 value 中读取，所以请先正确设置 dayjs 的 locale
-import type { Dayjs } from 'dayjs';
+import type { Dayjs } from "dayjs";
 // 字符补0
-import { toZero } from '../../utils/common'
+import { toZero } from "../../utils/common";
 
 const date = new Date();
 // const month = date.getMonth();
@@ -46,50 +59,73 @@ const detailState = {
   text: ("正常" as "正常") || "异常",
 };
 
-
 export default function Sign() {
   // 使用 React 的 useState Hook 来创建一个名为 month 的状态变量和一个名为 setMonth 的更新函数。
   const [month, setMonth] = useState(date.getMonth());
+
   const navigate = useNavigate();
   const handeleBut = () => {
     navigate("/exception");
   };
 
-  // 获取state.sgins.infos 如果有 则表示 已经拿到用户打卡信息详情 
-  const sginsInfos =  useSelector((state: RootState) => (state.sgins.infos));
+  // 获取state.sgins.infos 如果有 则表示 已经拿到用户打卡信息详情
+  const signsInfos = useSelector((state: RootState) => state.signs.infos);
   // 拿到请求参数
-  const usersInfos =  useSelector((state: RootState) => (state.user.infos));
+  const usersInfos = useSelector((state: RootState) => state.user.infos);
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    if(_.isEmpty(sginsInfos)){
-      dispatch(getSginsAction({userid: usersInfos.userid as string})).then((action) => {
-          const { errcode, infos } = 
-          (
+    if (_.isEmpty(signsInfos)) {
+      dispatch(getSignsAction({ userid: usersInfos._id as string })).then(
+        (action) => {
+          const { errcode, infos } = (
             action.payload as { [index: string]: unknown }
           ).data as { [index: string]: unknown };
+          if (errcode === 0) {
+            dispatch(updateInfos(infos as Infos));
+          }
+        }
+      );
+    }
+    // 副作用函数依赖于 sginsInfos、usersInfos 和 dispatch 这三个变量，添加到依赖项数组中
+  }, [signsInfos, usersInfos, dispatch]);
+
+  // 自定义渲染日期单元格，返回内容覆盖单元格
+  // 获取sginsInfos内time组
+  // value.month+1 得到的是没有字符补0的 而数组中是字符补0的 引用utils/common.tsx 帮忙
+  const dateCellRender = (value: Dayjs) => {
+    const month =
+      signsInfos.time &&
+      (signsInfos.time as { [index: string]: unknown })[
+        toZero(value.month() + 1)
+      ];
+    // 获得具体日期数组
+    const date =
+      month && (month as { [index: string]: unknown })[toZero(value.date())]
+    // 数组转换为string
+    let ret = "";
+    if (Array.isArray(date)) {
+      // join 数组连接
+      ret = date.join(" - ");
+    }
+    return <div className={styles["calendar-Box"]}>{ret}</div>;
+  };
+
+  // 在线签到 更新用户打卡信息详情 put
+  const handlePutSgin = () => {
+    dispatch(putSignsAction({ userid: usersInfos._id as string })).then(
+      (action) => {
+        const { errcode, infos } = (
+          action.payload as { [index: string]: unknown }
+        ).data as { [index: string]: unknown };
         // 正确拿到infos了
         if (errcode === 0) {
           dispatch(updateInfos(infos as Infos));
+          message.success("签到成功");
         }
-      })
-    }
-    // 副作用函数依赖于 sginsInfos、usersInfos 和 dispatch 这三个变量，添加到依赖项数组中
-  }, [sginsInfos, usersInfos, dispatch])
-
-  // console.log(sginsInfos)
-
-  // 自定义渲染日期单元格，返回内容覆盖单元格
-  const dateCellRender = (value: Dayjs) => {
-    // 获取sginsInfos内time组
-    // value.month+1 得到的是没有字符补0的 而数组中是字符补0的 引用utils/common.tsx 帮忙
-    const month = sginsInfos.time && (sginsInfos.time as {[index: string]: unknown}) [toZero( value.month() + 1 )]
-
-
-    return (
-      <div>日期单元格</div>
-    )
-  }
+      }
+    );
+  };
 
   return (
     <div>
@@ -134,14 +170,20 @@ export default function Sign() {
           }
 
           return (
-            <Row className={styles["calendar-Row"]} justify={"space-between"} align="middle">
-              <Button type="primary">在线签到</Button>
+            <Row
+              className={styles["calendar-Row"]}
+              justify={"space-between"}
+              align="middle"
+            >
+              <Button type="primary" onClick={handlePutSgin}>
+                在线签到
+              </Button>
               <Space>
                 <Button>{value.year()}年</Button>
                 {/* Select选择器 */}
                 <Select
-                  value={month}
                   // 实时更改
+                  value={month}
                   onChange={(newMonth) => {
                     const now = value.clone().month(newMonth);
                     setMonth(newMonth);

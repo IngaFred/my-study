@@ -22,7 +22,7 @@ const root = ReactDOM.createRoot(
 );
 root.render(
   // 严格模式 提供友好提示
-  <React.StrictMode>
+  // <React.StrictMode>
     <Suspense>
       {/* <App /> */}
       {/* 状态管理添加 */}
@@ -30,7 +30,7 @@ root.render(
         <RouterProvider router={router}></RouterProvider>
       </Provider>
     </Suspense>
-  </React.StrictMode>
+  // </React.StrictMode>
 );
 
 // If you want to start measuring performance in your app, pass a function
