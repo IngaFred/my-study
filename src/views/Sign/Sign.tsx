@@ -12,9 +12,12 @@ import _ from 'lodash';
 import { useSelector } from "react-redux";
 import type { RootState } from "../../store";
 import { useAppDispatch } from "../../store";
-import { getSginsAction, updateInfos } from "../../store/modules/sgin";
+import sgin, { getSginsAction, updateInfos } from "../../store/modules/sgin";
 import type { Infos } from "../../store/modules/user";
-
+// Calendar 部分 locale 是从 value 中读取，所以请先正确设置 dayjs 的 locale
+import type { Dayjs } from 'dayjs';
+// 字符补0
+import { toZero } from '../../utils/common'
 
 const date = new Date();
 // const month = date.getMonth();
@@ -42,6 +45,7 @@ const detailState = {
   type: ("success" as "success") || "error",
   text: ("正常" as "正常") || "异常",
 };
+
 
 export default function Sign() {
   // 使用 React 的 useState Hook 来创建一个名为 month 的状态变量和一个名为 setMonth 的更新函数。
@@ -73,6 +77,20 @@ export default function Sign() {
     // 副作用函数依赖于 sginsInfos、usersInfos 和 dispatch 这三个变量，添加到依赖项数组中
   }, [sginsInfos, usersInfos, dispatch])
 
+  // console.log(sginsInfos)
+
+  // 自定义渲染日期单元格，返回内容覆盖单元格
+  const dateCellRender = (value: Dayjs) => {
+    // 获取sginsInfos内time组
+    // value.month+1 得到的是没有字符补0的 而数组中是字符补0的 引用utils/common.tsx 帮忙
+    const month = sginsInfos.time && (sginsInfos.time as {[index: string]: unknown}) [toZero( value.month() + 1 )]
+
+
+    return (
+      <div>日期单元格</div>
+    )
+  }
+
   return (
     <div>
       {/* Descriptions描述列表 */}
@@ -91,7 +109,6 @@ export default function Sign() {
             </Descriptions.Item>
           ))
         }
-
         <Descriptions.Item label="操作">
           <Button size="small" ghost type="primary" onClick={handeleBut}>
             查看详情
@@ -102,8 +119,10 @@ export default function Sign() {
         </Descriptions.Item>
       </Descriptions>
       {/* Calendar自定义头部日历 */}
+
       <Calendar
         locale={locale}
+        dateCellRender={dateCellRender}
         headerRender={({ value, type, onChange, onTypeChange }) => {
           const monthOptions = [];
           for (let i = 0; i < 12; i++) {
@@ -115,7 +134,7 @@ export default function Sign() {
           }
 
           return (
-            <Row className={styles["calendar-Row"]} justify={"space-between"}>
+            <Row className={styles["calendar-Row"]} justify={"space-between"} align="middle">
               <Button type="primary">在线签到</Button>
               <Space>
                 <Button>{value.year()}年</Button>
