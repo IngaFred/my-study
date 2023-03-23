@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styles from "./Sign.module.scss";
 import { Button, Calendar, Descriptions, Row, Select, Space, Tag } from "antd";
 // 国际化配置
@@ -6,6 +6,15 @@ import "dayjs/locale/zh-cn";
 import locale from "antd/es/date-picker/locale/zh_CN";
 // 跳转
 import { useNavigate } from "react-router-dom";
+// lodash 
+import _ from 'lodash';
+// 对后台接口操作
+import { useSelector } from "react-redux";
+import type { RootState } from "../../store";
+import { useAppDispatch } from "../../store";
+import { getSginsAction, updateInfos } from "../../store/modules/sgin";
+import type { Infos } from "../../store/modules/user";
+
 
 const date = new Date();
 // const month = date.getMonth();
@@ -41,6 +50,29 @@ export default function Sign() {
   const handeleBut = () => {
     navigate("/exception");
   };
+
+  // 获取state.sgins.infos 如果有 则表示 已经拿到用户打卡信息详情 
+  const sginsInfos =  useSelector((state: RootState) => (state.sgins.infos));
+  // 拿到请求参数
+  const usersInfos =  useSelector((state: RootState) => (state.user.infos));
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    if(_.isEmpty(sginsInfos)){
+      dispatch(getSginsAction({userid: usersInfos.userid as string})).then((action) => {
+          const { errcode, infos } = 
+          (
+            action.payload as { [index: string]: unknown }
+          ).data as { [index: string]: unknown };
+        // 正确拿到infos了
+        if (errcode === 0) {
+          dispatch(updateInfos(infos as Infos));
+        }
+      })
+    }
+    // 副作用函数依赖于 sginsInfos、usersInfos 和 dispatch 这三个变量，添加到依赖项数组中
+  }, [sginsInfos, usersInfos, dispatch])
+
   return (
     <div>
       {/* Descriptions描述列表 */}
