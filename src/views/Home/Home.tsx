@@ -12,14 +12,14 @@ import HomeMain from "./components/HomeMain";
 import { Layout } from "antd";
 const { Header, Content, Sider } = Layout;
 
-export default function () {
+export default function Home() {
   return (
     <Layout>
       <Header className="header">
         <HomeHeader />
       </Header>
       <Layout>
-        <Sider width={260} theme={"light"}>
+        <Sider width={240} theme={"light"}>
           <HomeAside />
         </Sider>
         <Layout style={{ padding: "20px" }}>
