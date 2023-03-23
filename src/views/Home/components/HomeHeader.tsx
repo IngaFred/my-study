@@ -10,6 +10,7 @@ import type { RootState } from "../../../store";
 // token操作+同步方法
 import { useAppDispatch } from "../../../store";
 import { clearToken } from "../../../store/modules/user";
+// 
 
 export default function HomeHeader() {
   // infos,获取用户name,head
@@ -21,13 +22,14 @@ export default function HomeHeader() {
   ) as string;
   const dispatch = useAppDispatch();
 
-  const headleLogut = () => {
+  const headleLogout = () => {
     // 清除token
     dispatch(clearToken())
     // 延时返回
     setTimeout(
       () => {
-        window.location.replace('/login')
+        // window.location.replace('/login')
+        window.location.replace('/')
       }
     )
   }
@@ -45,7 +47,7 @@ export default function HomeHeader() {
     {
       key: "2",
       // 实现退出 清除token 到login
-      label: <div onClick={headleLogut}>退出</div>,
+      label: <div onClick={headleLogout}>退出</div>,
     },
   ];
 

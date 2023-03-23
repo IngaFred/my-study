@@ -54,9 +54,10 @@ export default function HomeAside() {
     <>
       <Menu
         // path
-        defaultSelectedKeys={[path]}
+        // 去default，使得它可以自适应路由的变化
+        selectedKeys={[path]}
         // subpath
-        defaultOpenKeys={[subpath]}
+        openKeys={[subpath]}
         mode="inline"
         items={items}
         className={styles["home-aside"]}
