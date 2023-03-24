@@ -34,7 +34,7 @@ import { toZero } from "../../utils/common";
 
 const date = new Date();
 // const month = date.getMonth();
-enum DetailKey {
+enum orignDetailKey {
   normal = "正常出勤",
   absent = "旷工",
   miss = "遗漏打卡",
@@ -43,9 +43,9 @@ enum DetailKey {
   lateAndEarly = "迟到并早退",
 }
 // keyof typeof 获取一个对象或枚举类型的所有键
-type DetailKeyKeys = keyof typeof DetailKey;
+type DetailKeyKeys = keyof typeof orignDetailKey;
 // 将deatailValue与DetailKey 关联Record<类型，值>
-const deatailValues: Record<DetailKeyKeys, number> = {
+const orignDeatailValues: Record<DetailKeyKeys, number> = {
   normal: 0,
   absent: 0,
   miss: 0,
@@ -54,14 +54,20 @@ const deatailValues: Record<DetailKeyKeys, number> = {
   lateAndEarly: 0,
 };
 // 封装Tag
-const detailState = {
-  type: ("success" as "success") || "error",
-  text: ("正常" as "正常") || "异常",
+const orignDetailState = {
+  // type: ("success" as "success") || "error",
+  // text: ("正常" as "正常") || "异常",
+  type: "success" || "error",
+  text: "正常" || "异常",
 };
 
 export default function Sign() {
+
   // 使用 React 的 useState Hook 来创建一个名为 month 的状态变量和一个名为 setMonth 的更新函数。
   const [month, setMonth] = useState(date.getMonth());
+  const [DetailKey, setDetailKey] = useState( {...orignDetailKey} )
+  const [deatailValues, setDeatailValues] = useState( {...orignDeatailValues} )
+  const [detailState, setDetailState] = useState( {...orignDetailState} )
 
   const navigate = useNavigate();
   const handeleBut = () => {
@@ -73,6 +79,71 @@ export default function Sign() {
   // 拿到请求参数
   const usersInfos = useSelector((state: RootState) => state.user.infos);
   const dispatch = useAppDispatch();
+
+  console.log(signsInfos);
+
+  useEffect(() => {
+    if(signsInfos.detail){
+      const detailMonth = (signsInfos.detail as {[index: string]: unknown}) [ toZero(month + 1) ] as {[index: string]: unknown}
+      // 循环得到特点月中的每天的数据 控制对应增加
+      for( let days in detailMonth ){
+        switch ( detailMonth[days] ) {
+          case DetailKey.normal:
+            orignDeatailValues.normal++
+            break;
+        }
+        switch ( detailMonth[days] ) {
+          case DetailKey.absent:
+            orignDeatailValues.absent++
+            break;
+        }
+        switch ( detailMonth[days] ) {
+          case DetailKey.miss:
+            orignDeatailValues.miss++
+            break;
+        }
+        switch ( detailMonth[days] ) {
+          case DetailKey.late:
+            orignDeatailValues.late++
+            break;
+        }
+        switch ( detailMonth[days] ) {
+          case DetailKey.early:
+            orignDeatailValues.early++
+            break;
+        }
+        switch ( detailMonth[days] ) {
+          case DetailKey.lateAndEarly:
+            orignDeatailValues.lateAndEarly++
+            break;
+        }
+      }
+      setDeatailValues({...orignDeatailValues})
+
+      // 考勤状态 Tag 异常
+      for (let index in orignDeatailValues){
+        if(index != 'normal' && orignDeatailValues[index as keyof typeof orignDeatailValues]){
+          setDetailState({
+            type: 'error',
+            text: '异常'
+          })
+        }
+      }
+    }
+    // 更新前触发和销毁时触发
+    return () => {
+      // 重置orignDeatailValues
+      for (let index in orignDeatailValues ) {
+        orignDeatailValues[index as keyof typeof orignDeatailValues] = 0
+      }
+      // 重置detailState
+      setDetailState({
+        type: 'success',
+        text: '正常'
+      })
+    }
+  }, [ signsInfos, month ])
+
 
   useEffect(() => {
     if (_.isEmpty(signsInfos)) {
