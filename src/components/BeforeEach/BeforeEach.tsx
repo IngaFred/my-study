@@ -47,7 +47,7 @@ export default function BeforeEach(props: BeforeEachProps) {
           }
         });
       } else {
-        return <Navigate to="login" />;
+        return <Navigate to="/login" />;
       }
     }
   }

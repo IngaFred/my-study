@@ -65,9 +65,9 @@ export default function Sign() {
 
   // 使用 React 的 useState Hook 来创建一个名为 month 的状态变量和一个名为 setMonth 的更新函数。
   const [month, setMonth] = useState(date.getMonth());
-  const [DetailKey, setDetailKey] = useState( {...orignDetailKey} )
-  const [deatailValues, setDeatailValues] = useState( {...orignDeatailValues} )
-  const [detailState, setDetailState] = useState( {...orignDetailState} )
+  const [DetailKey, setDetailKey] = useState( orignDetailKey )
+  const [deatailValues, setDeatailValues] = useState( orignDeatailValues )
+  const [detailState, setDetailState] = useState(orignDetailState)
 
   const navigate = useNavigate();
   const handeleBut = () => {
@@ -84,45 +84,45 @@ export default function Sign() {
 
   useEffect(() => {
     if(signsInfos.detail){
-      const detailMonth = (signsInfos.detail as {[index: string]: unknown}) [ toZero(month + 1) ] as {[index: string]: unknown}
+      const detailMonth = (signsInfos.detail as {[index: string]: unknown})[ toZero(month + 1) ] as {[index: string]: unknown}
       // 循环得到特点月中的每天的数据 控制对应增加
       for( let days in detailMonth ){
         switch ( detailMonth[days] ) {
           case DetailKey.normal:
-            orignDeatailValues.normal++
+            deatailValues.normal++
             break;
         }
         switch ( detailMonth[days] ) {
           case DetailKey.absent:
-            orignDeatailValues.absent++
+            deatailValues.absent++
             break;
         }
         switch ( detailMonth[days] ) {
           case DetailKey.miss:
-            orignDeatailValues.miss++
+            deatailValues.miss++
             break;
         }
         switch ( detailMonth[days] ) {
           case DetailKey.late:
-            orignDeatailValues.late++
+            deatailValues.late++
             break;
         }
         switch ( detailMonth[days] ) {
           case DetailKey.early:
-            orignDeatailValues.early++
+            deatailValues.early++
             break;
         }
         switch ( detailMonth[days] ) {
           case DetailKey.lateAndEarly:
-            orignDeatailValues.lateAndEarly++
+            deatailValues.lateAndEarly++
             break;
         }
       }
-      setDeatailValues({...orignDeatailValues})
+      setDeatailValues(deatailValues)
 
       // 考勤状态 Tag 异常
-      for (let index in orignDeatailValues){
-        if(index != 'normal' && orignDeatailValues[index as keyof typeof orignDeatailValues]){
+      for (let index in deatailValues){
+        if(index !== 'normal' && deatailValues[index as keyof typeof deatailValues]){
           setDetailState({
             type: 'error',
             text: '异常'
@@ -133,8 +133,8 @@ export default function Sign() {
     // 更新前触发和销毁时触发
     return () => {
       // 重置orignDeatailValues
-      for (let index in orignDeatailValues ) {
-        orignDeatailValues[index as keyof typeof orignDeatailValues] = 0
+      for (let index in deatailValues ) {
+        deatailValues[index as keyof typeof deatailValues] = 0
       }
       // 重置detailState
       setDetailState({
