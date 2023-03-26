@@ -62,12 +62,11 @@ const orignDetailState = {
 };
 
 export default function Sign() {
-
   // 使用 React 的 useState Hook 来创建一个名为 month 的状态变量和一个名为 setMonth 的更新函数。
   const [month, setMonth] = useState(date.getMonth());
-  const [DetailKey, setDetailKey] = useState( orignDetailKey )
-  const [deatailValues, setDeatailValues] = useState( orignDeatailValues )
-  const [detailState, setDetailState] = useState(orignDetailState)
+  const [DetailKey, setDetailKey] = useState(orignDetailKey);
+  const [deatailValues, setDeatailValues] = useState(orignDeatailValues);
+  const [detailState, setDetailState] = useState(orignDetailState);
 
   const navigate = useNavigate();
   const handeleBut = () => {
@@ -83,67 +82,71 @@ export default function Sign() {
   console.log(signsInfos);
 
   useEffect(() => {
-    if(signsInfos.detail){
-      const detailMonth = (signsInfos.detail as {[index: string]: unknown})[ toZero(month + 1) ] as {[index: string]: unknown}
+    if (signsInfos.detail) {
+      const detailMonth = (signsInfos.detail as { [index: string]: unknown })[
+        toZero(month + 1)
+      ] as { [index: string]: unknown };
       // 循环得到特点月中的每天的数据 控制对应增加
-      for( let days in detailMonth ){
-        switch ( detailMonth[days] ) {
+      for (let days in detailMonth) {
+        switch (detailMonth[days]) {
           case DetailKey.normal:
-            deatailValues.normal++
+            deatailValues.normal++;
             break;
         }
-        switch ( detailMonth[days] ) {
+        switch (detailMonth[days]) {
           case DetailKey.absent:
-            deatailValues.absent++
+            deatailValues.absent++;
             break;
         }
-        switch ( detailMonth[days] ) {
+        switch (detailMonth[days]) {
           case DetailKey.miss:
-            deatailValues.miss++
+            deatailValues.miss++;
             break;
         }
-        switch ( detailMonth[days] ) {
+        switch (detailMonth[days]) {
           case DetailKey.late:
-            deatailValues.late++
+            deatailValues.late++;
             break;
         }
-        switch ( detailMonth[days] ) {
+        switch (detailMonth[days]) {
           case DetailKey.early:
-            deatailValues.early++
+            deatailValues.early++;
             break;
         }
-        switch ( detailMonth[days] ) {
+        switch (detailMonth[days]) {
           case DetailKey.lateAndEarly:
-            deatailValues.lateAndEarly++
+            deatailValues.lateAndEarly++;
             break;
         }
       }
-      setDeatailValues(deatailValues)
+      setDeatailValues(deatailValues);
 
       // 考勤状态 Tag 异常
-      for (let index in deatailValues){
-        if(index !== 'normal' && deatailValues[index as keyof typeof deatailValues]){
+      for (let index in deatailValues) {
+        if (
+          index !== "normal" &&
+          deatailValues[index as keyof typeof deatailValues]
+        ) {
           setDetailState({
-            type: 'error',
-            text: '异常'
-          })
+            type: "error",
+            text: "异常",
+          });
         }
       }
     }
     // 更新前触发和销毁时触发
     return () => {
       // 重置orignDeatailValues
-      for (let index in deatailValues ) {
-        deatailValues[index as keyof typeof deatailValues] = 0
+      for (let index in deatailValues) {
+        deatailValues[index as keyof typeof deatailValues] = 0;
       }
       // 重置detailState
       setDetailState({
-        type: 'success',
-        text: '正常'
-      })
-    }
-  }, [ signsInfos, month ])
-
+        type: "success",
+        text: "正常",
+      });
+    };
+  }, [signsInfos, month]);
 
   useEffect(() => {
     if (_.isEmpty(signsInfos)) {
@@ -172,7 +175,7 @@ export default function Sign() {
       ];
     // 获得具体日期数组
     const date =
-      month && (month as { [index: string]: unknown })[toZero(value.date())]
+      month && (month as { [index: string]: unknown })[toZero(value.date())];
     // 数组转换为string
     let ret = "";
     if (Array.isArray(date)) {

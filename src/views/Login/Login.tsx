@@ -23,11 +23,10 @@ export default function Login() {
   // 从useSelector中解出User中的token
   // const token = useSelector((state: RootState) => state.user.token);
   const dispatch = useAppDispatch();
-  
+
   // antd 方法
   const onFinish = (values: User) => {
-    dispatch(
-      loginAction(values)).then((action) => {
+    dispatch(loginAction(values)).then((action) => {
       // 对action.payload和其下的数据类型，进行断言
       const { errcode, token } = (
         action.payload as { [index: string]: unknown }
@@ -36,14 +35,14 @@ export default function Login() {
         //类型正确，且token更新成功
         dispatch(updateToken(token));
         message.success("登录成功");
-        navigate('/')
+        navigate("/");
       } else {
         message.error("登录失败");
       }
     });
   };
   // 已经知道errorInfo的类型，将它解出
-  const onFinishFailed = ({values}: {values: User}) => {
+  const onFinishFailed = ({ values }: { values: User }) => {
     message.error("登录失败");
     console.log("Failed:", values);
   };
@@ -114,7 +113,7 @@ export default function Login() {
           autoComplete="off"
           className={styles.main}
           // 将对象绑定到组件
-          form = {form}
+          form={form}
         >
           <Form.Item
             label="邮箱"
@@ -122,8 +121,8 @@ export default function Login() {
             rules={[
               { required: true, message: "请输入邮箱！" },
               // 简单的邮箱校验
-              { type: 'email', message: '请输入正确的邮箱地址！'}
-          ]}
+              { type: "email", message: "请输入正确的邮箱地址！" },
+            ]}
           >
             <Input placeholder="请输入邮箱" />
           </Form.Item>
@@ -155,11 +154,13 @@ export default function Login() {
             {testUsers.map((v) => (
               <Col key={v.email} span={12} push={5}>
                 <h3>
-                  测试账号 {v.email.length-18}:
+                  测试账号 {v.email.length - 18}:
                   <p>
-                  <Button onClick={autoLogin({ email: v.email, pass: v.pass })}>
-                    一键登录
-                  </Button>
+                    <Button
+                      onClick={autoLogin({ email: v.email, pass: v.pass })}
+                    >
+                      一键登录
+                    </Button>
                   </p>
                 </h3>
               </Col>

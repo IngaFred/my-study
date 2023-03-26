@@ -1,11 +1,11 @@
 import { configureStore } from "@reduxjs/toolkit";
 import usersReduser from "./modules/user";
 // 对ruducer下的user进行断言，引入所需类型
-import type { Reducer, AnyAction} from "@reduxjs/toolkit"
+import type { Reducer, AnyAction } from "@reduxjs/toolkit";
 import type { UsersState } from "./modules/user";
 import type { PersistPartial } from "redux-persist/es/persistReducer";
 // 添加sginReduser
-import signsReducer from './modules/sign'
+import signsReducer from "./modules/sign";
 // 持节化处理
 import {
   persistStore,
@@ -35,27 +35,30 @@ const store = configureStore({
   reducer: {
     // 进行持久化操作，使用persistReducer将对象包起来
     // 持久化后，产生问题即index.tsx下的 RootState的类型无法正确推断，故需要对ruducer下的user进行断言，让它保持自己的类型
-    user: persistReducer(persistConfig, usersReduser) as Reducer<UsersState & PersistPartial, AnyAction>,
+    user: persistReducer(persistConfig, usersReduser) as Reducer<
+      UsersState & PersistPartial,
+      AnyAction
+    >,
 
     // 添加SginState
-    signs: signsReducer
+    signs: signsReducer,
   },
-    // 中间键设置
-    middleware: (getDefaultMiddleware) =>
+  // 中间键设置
+  middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
       // serializableCheck: {
       //   ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
       // },
-      serializableCheck: false
+      serializableCheck: false,
     }),
 });
 
 // store 配置持久化
-persistStore(store)
+persistStore(store);
 
 // 引出RootState, AppDispath, useDispatch
-export type RootState = ReturnType<typeof store.getState>
-export type AppDispath = typeof store.dispatch
-export const useAppDispatch: () => AppDispath = useDispatch
+export type RootState = ReturnType<typeof store.getState>;
+export type AppDispath = typeof store.dispatch;
+export const useAppDispatch: () => AppDispath = useDispatch;
 
 export default store;
