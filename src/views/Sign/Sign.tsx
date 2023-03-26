@@ -34,7 +34,7 @@ import { toZero } from "../../utils/common";
 
 const date = new Date();
 // const month = date.getMonth();
-enum orignDetailKey {
+enum originDetailKey {
   normal = "正常出勤",
   absent = "旷工",
   miss = "遗漏打卡",
@@ -43,9 +43,9 @@ enum orignDetailKey {
   lateAndEarly = "迟到并早退",
 }
 // keyof typeof 获取一个对象或枚举类型的所有键
-type DetailKeyKeys = keyof typeof orignDetailKey;
-// 将deatailValue与DetailKey 关联Record<类型，值>
-const orignDeatailValues: Record<DetailKeyKeys, number> = {
+type DetailKeyKeys = keyof typeof originDetailKey;
+// 将detailValue与DetailKey 关联Record<类型，值>
+const originDetailValues: Record<DetailKeyKeys, number> = {
   normal: 0,
   absent: 0,
   miss: 0,
@@ -54,7 +54,7 @@ const orignDeatailValues: Record<DetailKeyKeys, number> = {
   lateAndEarly: 0,
 };
 // 封装Tag
-const orignDetailState = {
+const originDetailState = {
   // type: ("success" as "success") || "error",
   // text: ("正常" as "正常") || "异常",
   type: "success" || "error",
@@ -64,16 +64,16 @@ const orignDetailState = {
 export default function Sign() {
   // 使用 React 的 useState Hook 来创建一个名为 month 的状态变量和一个名为 setMonth 的更新函数。
   const [month, setMonth] = useState(date.getMonth());
-  const [DetailKey, setDetailKey] = useState(orignDetailKey);
-  const [deatailValues, setDeatailValues] = useState(orignDeatailValues);
-  const [detailState, setDetailState] = useState(orignDetailState);
+  const DetailKey = originDetailKey;
+  const [detailValues, setDetailValues] = useState(originDetailValues);
+  const [detailState, setDetailState] = useState(originDetailState);
 
   const navigate = useNavigate();
-  const handeleBut = () => {
+  const handleBut = () => {
     navigate("/exception");
   };
 
-  // 获取state.sgins.infos 如果有 则表示 已经拿到用户打卡信息详情
+  // 获取state.signs.infos 如果有 则表示 已经拿到用户打卡信息详情
   const signsInfos = useSelector((state: RootState) => state.signs.infos);
   // 拿到请求参数
   const usersInfos = useSelector((state: RootState) => state.user.infos);
@@ -90,42 +90,42 @@ export default function Sign() {
       for (let days in detailMonth) {
         switch (detailMonth[days]) {
           case DetailKey.normal:
-            deatailValues.normal++;
+            detailValues.normal++;
             break;
         }
         switch (detailMonth[days]) {
           case DetailKey.absent:
-            deatailValues.absent++;
+            detailValues.absent++;
             break;
         }
         switch (detailMonth[days]) {
           case DetailKey.miss:
-            deatailValues.miss++;
+            detailValues.miss++;
             break;
         }
         switch (detailMonth[days]) {
           case DetailKey.late:
-            deatailValues.late++;
+            detailValues.late++;
             break;
         }
         switch (detailMonth[days]) {
           case DetailKey.early:
-            deatailValues.early++;
+            detailValues.early++;
             break;
         }
         switch (detailMonth[days]) {
           case DetailKey.lateAndEarly:
-            deatailValues.lateAndEarly++;
+            detailValues.lateAndEarly++;
             break;
         }
       }
-      setDeatailValues(deatailValues);
+      setDetailValues(detailValues);
 
       // 考勤状态 Tag 异常
-      for (let index in deatailValues) {
+      for (let index in detailValues) {
         if (
           index !== "normal" &&
-          deatailValues[index as keyof typeof deatailValues]
+          detailValues[index as keyof typeof detailValues]
         ) {
           setDetailState({
             type: "error",
@@ -136,9 +136,9 @@ export default function Sign() {
     }
     // 更新前触发和销毁时触发
     return () => {
-      // 重置orignDeatailValues
-      for (let index in deatailValues) {
-        deatailValues[index as keyof typeof deatailValues] = 0;
+      // 重置detailValues
+      for (let index in detailValues) {
+        detailValues[index as keyof typeof detailValues] = 0;
       }
       // 重置detailState
       setDetailState({
@@ -161,11 +161,11 @@ export default function Sign() {
         }
       );
     }
-    // 副作用函数依赖于 sginsInfos、usersInfos 和 dispatch 这三个变量，添加到依赖项数组中
+    // 副作用函数依赖于 signsInfos、usersInfos 和 dispatch 这三个变量，添加到依赖项数组中
   }, [signsInfos, usersInfos, dispatch]);
 
   // 自定义渲染日期单元格，返回内容覆盖单元格
-  // 获取sginsInfos内time组
+  // 获取signsInfos内time组
   // value.month+1 得到的是没有字符补0的 而数组中是字符补0的 引用utils/common.tsx 帮忙
   const dateCellRender = (value: Dayjs) => {
     const month =
@@ -186,7 +186,7 @@ export default function Sign() {
   };
 
   // 在线签到 更新用户打卡信息详情 put
-  const handlePutSgin = () => {
+  const handlePutSign = () => {
     dispatch(putSignsAction({ userid: usersInfos._id as string })).then(
       (action) => {
         const { errcode, infos } = (
@@ -215,12 +215,12 @@ export default function Sign() {
           // 对象不可以被遍历 要将const对象转换为数组
           Object.entries(DetailKey).map((v) => (
             <Descriptions.Item key={v[0]} label={v[1]}>
-              {deatailValues[v[0] as DetailKeyKeys]}
+              {detailValues[v[0] as DetailKeyKeys]}
             </Descriptions.Item>
           ))
         }
         <Descriptions.Item label="操作">
-          <Button size="small" ghost type="primary" onClick={handeleBut}>
+          <Button size="small" ghost type="primary" onClick={handleBut}>
             查看详情
           </Button>
         </Descriptions.Item>
@@ -249,7 +249,7 @@ export default function Sign() {
               justify={"space-between"}
               align="middle"
             >
-              <Button type="primary" onClick={handlePutSgin}>
+              <Button type="primary" onClick={handlePutSign}>
                 在线签到
               </Button>
               <Space>
