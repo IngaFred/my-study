@@ -20,7 +20,7 @@ export default function Exception() {
     );
   }
   return (
-    <div className={styles.excetion}>
+    <div className={styles.exception}>
       <Row justify={"space-between"} align={"middle"}>
         <Button type="primary" onClick={handleBtn}>
           异常审核
@@ -31,10 +31,10 @@ export default function Exception() {
         </Space>
       </Row>
       <Row>
-        <Col span={12} className={styles["excetion-ColBox"]}>
+        <Col span={12} className={styles["exception-ColBox"]}>
           <Empty description="无异常考勤" />
         </Col>
-        <Col span={12} className={styles["excetion-ColBox"]}>
+        <Col span={12} className={styles["exception-ColBox"]}>
           <Empty description="无审批申请" />
         </Col>
       </Row>

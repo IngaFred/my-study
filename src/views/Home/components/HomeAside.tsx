@@ -42,13 +42,13 @@ export default function HomeAside() {
       children,
     };
   });
-  // 获取路径 存在matchs中
+  // 获取路径 存在matches中
   const location = useLocation();
-  const matchs = matchRoutes(routes, location);
-  // console.log(matchs)
+  const matches = matchRoutes(routes, location);
+  // console.log(matches)
   // 非空判定 !.
-  const subpath = matchs![0].pathnameBase || "";
-  const path = matchs![1].pathnameBase || "";
+  const subpath = matches![0].pathnameBase || "";
+  const path = matches![1].pathnameBase || "";
 
   return (
     <>
