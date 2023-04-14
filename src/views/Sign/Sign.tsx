@@ -79,7 +79,7 @@ export default function Sign() {
   const usersInfos = useSelector((state: RootState) => state.user.infos);
   const dispatch = useAppDispatch();
 
-  console.log(signsInfos);
+  // console.log(signsInfos);
 
   useEffect(() => {
     if (signsInfos.detail) {
