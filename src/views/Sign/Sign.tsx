@@ -146,7 +146,7 @@ export default function Sign() {
         text: "正常",
       });
     };
-  }, [signsInfos, month]);
+  }, [signsInfos, month, detailValues, DetailKey]);
 
   useEffect(() => {
     if (_.isEmpty(signsInfos)) {

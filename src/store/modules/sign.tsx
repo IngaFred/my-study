@@ -27,7 +27,7 @@ const signsSlice = createSlice({
 });
 // 获取用户打卡信息详情 get
 export const getSignsAction = createAsyncThunk(
-  "signs/getSginsAction",
+  "signs/getSignsAction",
   async (payload: Time) => {
     const ret = await http.get("/signs/time", payload);
     return ret;
@@ -35,7 +35,7 @@ export const getSignsAction = createAsyncThunk(
 );
 // 更新用户打卡信息详情 put
 export const putSignsAction = createAsyncThunk(
-  "/signs/putSginsAction",
+  "/signs/putSignsAction",
   async (payload: Time) => {
     const ret = await http.put("/signs/time", payload);
     return ret;

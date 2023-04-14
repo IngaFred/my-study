@@ -3,7 +3,7 @@ import React from "react";
 import { useLocation, matchRoutes, Navigate } from "react-router-dom";
 // 引入routers表
 import { routes } from "../../router";
-// 获取dispacth
+// 获取dispatch
 import { useAppDispatch } from "../../store";
 // 引入 获取用户信息的infosAction方法 update 更新
 import { infosAction, updateInfos } from "../../store/modules/user";
@@ -22,16 +22,16 @@ export default function BeforeEach(props: BeforeEachProps) {
   const infos = useSelector((state: RootState) => state.user.infos);
 
   const location = useLocation();
-  const matchs = matchRoutes(routes, location);
+  const matches = matchRoutes(routes, location);
 
-  // 通过useAppDispacth 获取dispatch
+  // 通过useAppDispatch 获取dispatch
   const dispatch = useAppDispatch();
 
-  // console.log(matchs);
-  // 先判断matchs列表组，是否为空
-  if (Array.isArray(matchs)) {
-    // 不为空，将matchs中最后一个路由的meta保存
-    const meta = matchs[matchs.length - 1].route.meta;
+  // console.log(matches);
+  // 先判断matches列表组，是否为空
+  if (Array.isArray(matches)) {
+    // 不为空，将matches中最后一个路由的meta保存
+    const meta = matches[matches.length - 1].route.meta;
     // 验证属性中的auth属性 查看是否具有显示权限
     if (meta?.auth && _.isEmpty(infos)) {
       if (token) {
